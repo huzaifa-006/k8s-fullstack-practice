@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-backend
+  template:
+    metadata:
+      labels:
+        app: flask-backend
+    spec:
+      containers:
+      - name: flask-backend
+        image: huzaifa/k8s-backend:latest   
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DATABASE_HOST
+          value: postgres
+        - name: DATABASE_USER
+          value: huzaifa
+        - name: DATABASE_PASSWORD
+          value: 1234
+        - name: DATABASE_NAME
+          value: prescription_db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-backend
+spec:
+  selector:
+    app: flask-backend
+  ports:
+    - port: 5000
+  type: ClusterIP
