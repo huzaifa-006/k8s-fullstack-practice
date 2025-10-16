@@ -1,4 +1,3 @@
-# Build React app
 FROM node:20 as build
 
 WORKDIR /app
